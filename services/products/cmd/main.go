@@ -16,6 +16,7 @@ import (
 	"github.com/htooanttko/microservices/services/products/internal/services"
 	"github.com/htooanttko/microservices/shared/pkg/db"
 	"github.com/htooanttko/microservices/shared/pkg/logger"
+	"github.com/htooanttko/microservices/shared/pkg/middleware"
 )
 
 func main() {
@@ -52,6 +53,7 @@ func main() {
 
 	v1Router := chi.NewRouter()
 	v1Router.Group(func(r chi.Router) {
+		r.Use(middleware.AuthMiddleware)
 		r.Get("/products", productHandler.GetAll)
 		r.Get("/products/{id}", productHandler.GetByID)
 		r.Post("/products", productHandler.Create)
