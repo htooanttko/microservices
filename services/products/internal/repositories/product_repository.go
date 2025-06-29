@@ -21,18 +21,18 @@ func NewProductRepository(db *sql.DB) ProductRepository {
 	return &productRepo{q: database.New(db)}
 }
 
-func (r *productRepo) GetAll(ctx context.Context) ([]database.Product, error) {
-	return r.q.GetProducts(ctx)
+func (pr *productRepo) GetAll(ctx context.Context) ([]database.Product, error) {
+	return pr.q.GetProducts(ctx)
 }
 
-func (r *productRepo) GetByID(ctx context.Context, id int32) (database.Product, error) {
-	product, err := r.q.GetProductByID(ctx, id)
+func (pr *productRepo) GetByID(ctx context.Context, id int32) (database.Product, error) {
+	product, err := pr.q.GetProductByID(ctx, id)
 	// if errors.Is(err, sql.ErrNoRows) {
 	// 	return nil, nil
 	// }
 	return product, err
 }
 
-func (r *productRepo) Create(ctx context.Context, arg database.CreateProductParams) (database.Product, error) {
-	return r.q.CreateProduct(ctx, arg)
+func (pr *productRepo) Create(ctx context.Context, arg database.CreateProductParams) (database.Product, error) {
+	return pr.q.CreateProduct(ctx, arg)
 }

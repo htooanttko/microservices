@@ -10,7 +10,7 @@ type Product struct {
 	ID        int32     `json:"id"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
-	Name      string    `json:"name"`
+	Name      string    `json:"name" validate:"required"`
 }
 
 func DatabaseProductToProduct(p database.Product) Product {

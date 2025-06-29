@@ -6,7 +6,6 @@ type Config struct {
 	AppEnv   string
 	Server   ServerConfig
 	Database DatabaseConfig
-	JWT      JWTConfig
 	LogLevel string
 }
 
@@ -23,9 +22,5 @@ type DatabaseConfig struct {
 	User     string
 	Password string
 	Name     string
-}
-
-type JWTConfig struct {
-	Secret     string
-	Expiration time.Duration
+	SSLMode  string
 }

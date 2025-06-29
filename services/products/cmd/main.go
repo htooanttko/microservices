@@ -29,7 +29,7 @@ func main() {
 		User:     cfg.Database.User,
 		Password: cfg.Database.Password,
 		DBName:   cfg.Database.Name,
-		SSLMode:  "disable",
+		SSLMode:  cfg.Database.SSLMode,
 	})
 	if err != nil {
 		logger.Error.Fatalf("Failed to connect to database: %v", err)
@@ -71,18 +71,16 @@ func main() {
 
 	go func() {
 		logger.Info.Printf("Starting server on port: %s", cfg.Server.Port)
-		err = srv.ListenAndServe()
-		if err != nil {
+		if err := srv.ListenAndServe(); err != http.ErrServerClosed {
 			logger.Error.Printf("Error starting server: %s\n", err)
 			os.Exit(1)
 		}
 	}()
 
 	c := make(chan os.Signal, 1)
-	signal.Notify(c, os.Interrupt)
-	signal.Notify(c, syscall.SIGTERM)
+	signal.Notify(c, syscall.SIGINT, syscall.SIGTERM)
 
-	sig := <-c
+	sig := <-c // [BLOCK] waiting for the signal
 	logger.Info.Println("Got signal:", sig)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
@@ -91,5 +89,4 @@ func main() {
 	if err := srv.Shutdown(ctx); err != nil {
 		logger.Error.Fatalf("Server forced to shutdown: %v", err)
 	}
-
 }
