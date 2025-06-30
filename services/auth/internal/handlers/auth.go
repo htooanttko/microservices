@@ -22,7 +22,7 @@ func NewAuthHandler(service services.AuthService) *AuthHandler {
 var validate = validator.New()
 
 func (ah *AuthHandler) SignUp(rw http.ResponseWriter, r *http.Request) {
-	var du models.User
+	var du models.SignUp
 	if err := utils.FromJson(&du, r.Body); err != nil {
 		responses.WithError(rw, http.StatusBadRequest, err.Error())
 		return
@@ -51,7 +51,7 @@ func (ah *AuthHandler) SignUp(rw http.ResponseWriter, r *http.Request) {
 }
 
 func (ah *AuthHandler) Login(rw http.ResponseWriter, r *http.Request) {
-	var du models.User
+	var du models.Login
 	if err := utils.FromJson(&du, r.Body); err != nil {
 		responses.WithError(rw, http.StatusBadRequest, err.Error())
 		return

@@ -6,6 +6,17 @@ import (
 	"github.com/htooanttko/microservices/services/auth/internal/database"
 )
 
+type SignUp struct {
+	Name     string `json:"name" validate:"required"`
+	Email    string `json:"email" validate:"required,email"`
+	Password string `json:"password" validate:"required,min=8"`
+}
+
+type Login struct {
+	Email    string `json:"email" validate:"required,email"`
+	Password string `json:"password" validate:"required"`
+}
+
 type User struct {
 	ID        int32     `json:"id"`
 	CreatedAt time.Time `json:"created_at"`
